@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Pravee 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Klee+One&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fde8ef 0%, #fcd5e0 30%, #f9c0d0 60%, #f0d0dc 100%);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 40%, rgba(255,160,185,0.5) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 20%, rgba(250,130,160,0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 55% 85%, rgba(255,190,210,0.4) 0%, transparent 55%);
+    animation: shimmer 9s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes shimmer {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.04); }
+  }
+
+  /* ── SPLASH SCREEN ── */
+  #splash {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: linear-gradient(145deg, #f7c5d5 0%, #f0a0be 40%, #e8789e 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  #splash.hide {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+  #splash::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(255,220,235,0.6) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 70%, rgba(220,80,120,0.3) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .splash-petals-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 18px;
+    padding-top: 28px;
+    opacity: 0.55;
+    animation: petalDrift 4s ease-in-out infinite alternate;
+  }
+  .splash-petals-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 18px;
+    padding-bottom: 28px;
+    opacity: 0.55;
+    animation: petalDrift 4s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes petalDrift {
+    0% { letter-spacing: 14px; opacity: 0.4; }
+    100% { letter-spacing: 22px; opacity: 0.65; }
+  }
+  .splash-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+  .splash-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 22px;
+    animation: floatIcon 3s ease-in-out infinite;
+  }
+  @keyframes floatIcon {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+  }
+  .splash-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(38px, 9vw, 68px);
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: 8px;
+    text-shadow: 0 2px 30px rgba(150,40,70,0.3);
+    margin-bottom: 10px;
+  }
+  .splash-sub {
+    font-family: 'Klee One', cursive;
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 3px;
+    margin-bottom: 48px;
+  }
+  .splash-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.25);
+    border: 1.5px solid rgba(255,255,255,0.6);
+    border-radius: 50px;
+    padding: 14px 36px;
+    font-family: 'Klee One', cursive;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 2px;
+    backdrop-filter: blur(8px);
+    animation: pulse 2.5s ease-in-out infinite;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  .splash-btn:hover { background: rgba(255,255,255,0.38); transform: scale(1.05); }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(255,255,255,0); }
+  }
+
+  /* ── MAIN CONTENT ── */
+  #petals-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #music-indicator {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(220,100,130,0.3);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-family: 'Klee One', cursive;
+    font-size: 13px;
+    color: #c05070;
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  #music-indicator:hover { background: rgba(255,255,255,0.75); transform: scale(1.04); }
+  .note-anim {
+    display: inline-block;
+    animation: floatNote 2s ease-in-out infinite;
+    font-size: 15px;
+  }
+  @keyframes floatNote {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-4px) rotate(5deg); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+  }
+
+  .card {
+    max-width: 680px;
+    width: 100%;
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.72);
+    border-radius: 28px;
+    padding: 56px 52px;
+    box-shadow:
+      0 8px 60px rgba(200,80,110,0.12),
+      0 2px 20px rgba(255,180,200,0.2);
+    opacity: 0;
+    transform: translateY(32px);
+    animation: fadeUp 1.5s cubic-bezier(0.22,1,0.36,1) 0.4s forwards;
+  }
+
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  .header { text-align: center; margin-bottom: 42px; }
+
+  .to-label {
+    font-family: 'Klee One', cursive;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #d0708a;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+  }
+
+  .name {
+    font-size: clamp(54px, 11vw, 82px);
+    font-weight: 300;
+    color: #8b2040;
+    letter-spacing: 7px;
+    line-height: 1;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.5s forwards;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px auto 0;
+    width: fit-content;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.8s forwards;
+  }
+  .divider-line {
+    width: 65px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d08090, transparent);
+  }
+
+  .message {
+    font-size: 17.5px;
+    font-weight: 300;
+    line-height: 2.05;
+    color: #5a2030;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeIn 1.3s ease 2s forwards;
+  }
+
+  .message p { margin-bottom: 24px; }
+  .message p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    font-style: normal;
+    color: #a03050;
+    font-weight: 400;
+  }
+
+  .quote {
+    font-style: normal;
+    font-size: 16px;
+    color: #8b2040;
+    border-left: 2px solid #e08090;
+    padding-left: 16px;
+    margin-bottom: 24px !important;
+    line-height: 1.8;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 42px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.8s forwards;
+  }
+  .footer-text {
+    font-family: 'Klee One', cursive;
+    font-size: 13px;
+    color: #c07085;
+    letter-spacing: 2px;
+  }
+  .hearts {
+    margin-top: 10px;
+    font-size: 18px;
+    letter-spacing: 8px;
+    animation: heartbeat 2.5s ease-in-out infinite;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.14); }
+  }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  @media (max-width: 600px) {
+    .card { padding: 36px 26px; }
+    .message { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN — click anywhere to open card + start music -->
+<div id="splash" onclick="openCard()">
+  <div class="splash-petals-top">🌸 🌸 🌸 🌸 🌸</div>
+  <div class="splash-content">
+    <span class="splash-icon"></span>
+    <div class="splash-title">Pravee</div>
+    <div class="splash-sub">A birthday Wish!! ✨</div>
+    <div class="splash-btn">
+      <span>🌸</span>
+      <span>tap to open</span>
+      <span>🌸</span>
+    </div>
+  </div>
+  <div class="splash-petals-bottom">🌸 🌸 🌸 🌸 🌸</div>
+</div>
+
+<canvas id="petals-canvas"></canvas>
+
+<div id="music-indicator" onclick="toggleMusic()">
+  <span class="note-anim" id="music-note">♫</span>
+  <span id="music-label">Playing music</span>
+</div>
+
+<audio id="bg-music" loop src="away-in-manger-instrumental-by-jesse-quinn-272162.mp3"></audio>
+
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <div class="to-label">for you,</div>
+      <div class="name">Pravee</div>
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span style="font-size:17px;">🌸</span>
+        <div class="divider-line"></div>
+      </div>
+    </div>
+
+    <div class="message">
+      <p>Happy Birthday 🎉</p>
+
+      <p>I hope your day is going really well and that you're smiling a lot today — you deserve that.</p>
+
+      <p>I know we don't talk as much these days, but I still really enjoy the times we do, even if it's just in the game !!</p>
+
+      <p>I know destiny decides how long people stay in each other's lives, and maybe that's just how things were meant to be for us. Still, the time we shared meant more to me than I ever said. Things changed and we drifted apart, which I didn't expect, but I still look back at those moments in a good way. I wish I could be there right now, like we used to be — just talking and sharing things. Even if things aren't the same anymore, those memories were real, and I'll always appreciate them !!</p>
+
+      <p class="quote">"It's odd how familiarity can survive even when everything else decides to change !!"</p>
+
+      <p>Happy Birthday, and wishing this year introduces you to the right kind of people. Stay safe !!</p>
+
+      <p>Hoping that JIM <3 is good and healthy !!</p>
+
+      <p>You don't have to say anything to this — I just felt like your birthday was a nice moment to say something real.</p>
+    </div>
+
+    <div class="footer">
+      <div class="footer-text">with warmth &amp; honesty</div>
+      <div class="hearts">🌸 🤍 🌸</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const audio = document.getElementById('bg-music');
+  audio.volume = 0.55;
+  let musicOn = true;
+
+  function openCard() {
+    const splash = document.getElementById('splash');
+    splash.classList.add('hide');
+    // Music starts here — triggered by user click so browser allows it
+    audio.play().catch(() => {});
+    setTimeout(() => { splash.style.display = 'none'; }, 950);
+  }
+
+  function toggleMusic() {
+    if (musicOn) {
+      audio.pause();
+      musicOn = false;
+      document.getElementById('music-note').textContent = '♪';
+      document.getElementById('music-label').textContent = 'Paused';
+    } else {
+      audio.play();
+      musicOn = true;
+      document.getElementById('music-note').textContent = '♫';
+      document.getElementById('music-label').textContent = 'Playing music';
+    }
+  }
+
+  // ── Petal canvas ─────────────────────────────────────────────
+  const canvas = document.getElementById('petals-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const petalColors = ['#f9b8cb','#f5a0bb','#fcd4e0','#f0c0d0','#fde8ef','#e8a0b8','#ffcce0'];
+
+  class Petal {
+    constructor(init) { this.reset(init); }
+    reset(init) {
+      this.x = Math.random() * canvas.width;
+      this.y = init ? Math.random() * canvas.height : -20;
+      this.size = Math.random() * 11 + 5;
+      this.speedY = Math.random() * 1.1 + 0.35;
+      this.speedX = (Math.random() - 0.5) * 0.7;
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotSpeed = (Math.random() - 0.5) * 0.035;
+      this.opacity = Math.random() * 0.5 + 0.2;
+      this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
+      this.swing = Math.random() * Math.PI * 2;
+      this.swingSpeed = Math.random() * 0.025 + 0.008;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.opacity;
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, this.size * 0.5, this.size, 0, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.restore();
+    }
+    update() {
+      this.swing += this.swingSpeed;
+      this.x += this.speedX + Math.sin(this.swing) * 0.55;
+      this.y += this.speedY;
+      this.rotation += this.rotSpeed;
+      if (this.y > canvas.height + 20) this.reset(false);
+    }
+  }
+
+  const petals = Array.from({ length: 60 }, () => new Petal(true));
+
+  function animatePetals() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    petals.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animatePetals);
+  }
+  animatePetals();
+</script>
+
+</body>
+</html>
